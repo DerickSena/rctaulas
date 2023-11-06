@@ -43,5 +43,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "main": "index.js",
+  "repository": "https://github.com/DerickSena/rctaulas.git",
+  "author": "DerickSena <derick_sena13@outlook.com>",
+  "license": "MIT"
 }
