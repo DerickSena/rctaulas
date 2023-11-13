@@ -1,13 +1,16 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { InputLogin } from "./components/inputLogin";
+import { ButtonLogin } from "./components/ButtonLogin";
+import { UsuarioLogadoContext } from "../../shared/contexts";
 
 export const Login = () => {
     const inputPasswordRef = useRef<HTMLInputElement>(null);
 
-
+    const {nomeDoUsuario} = useContext(UsuarioLogadoContext);
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
 
+   
     useEffect(() => {
         console.log(email)
     }, [email]);
@@ -31,6 +34,7 @@ export const Login = () => {
             <form>
 
                 <p>Quantidades de caracteres no Email: {emailLenght}</p>
+                <p>{nomeDoUsuario}</p>
                 <InputLogin
                     label="Email"
                     value={email}
@@ -42,14 +46,14 @@ export const Login = () => {
                     label="Senha"
                     value={senha}
                     type="password"
+                    ref={inputPasswordRef}
                     onChange={newValue => setSenha(newValue)}
-                    onPressEnter={() => inputPasswordRef.current?.focus()}
                 />
                 
-
-                <button type="button" onClick={handleEntrar}>
-                    Cadastrado
-                </button>
+                {/*<button type="button" onClick={handleEntrar}>
+                    Entrar
+                </button>*/}
+                <ButtonLogin type="button" onClick={handleEntrar} children={undefined}/>
             </form>
         </div>
     );
