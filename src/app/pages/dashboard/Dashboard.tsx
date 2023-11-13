@@ -1,24 +1,61 @@
-import {  useRef } from "react"
-import { Link } from "react-router-dom"
+import {useCallback, useState} from "react";
 
-import { useUsuarioLogado } from "../../shared/hooks";
+interface IListItem{
+    title:string;
+    isSelected:boolean;
+}
 
 export const Dashboard = () => {
-    const counterRef = useRef(0);
+    const [lista,setLista] = useState<IListItem[]>([]);
+   
+    const handleInputKeyDown:React.KeyboardEventHandler<HTMLInputElement>  = useCallback((e)=>{
+        if(e.key === 'Enter'){
+            if(e.currentTarget.value.trim().length === 0) return;
 
-    const{nomeDoUsuario,logout} = useUsuarioLogado();
+            const value = e.currentTarget.value;
+
+            e.currentTarget.value = '';
+
+            setLista((oldLista)=>{
+                if(oldLista.some((ListItem) => ListItem.title === value)) return oldLista;
+
+                return[...oldLista,
+                    {
+                    title:value,
+                    isSelected:false,
+                    }];
+            });
+        }
+    },[]);
     return (
         <div>
-            <p>Dashboard</p>
+            <p>Lista</p>
+            <input onKeyDown={handleInputKeyDown}/>
 
-            <p>{nomeDoUsuario}</p>
+            <ul>
+                {lista.map((ListItem)=> {
+                    return <li key={ListItem.title}>
+                        <input 
+                        type="checkbox"
+                        onChange={()=>{
+                            setLista(oldLista =>{
+                                return oldLista.map(oldListItem => {
+                                    const newIsSelected = oldListItem.title === ListItem.title 
+                                    ? !oldListItem.isSelected
+                                    : oldListItem.isSelected;
+                                    return{
+                                        ...oldListItem,
+                                        isSelected: newIsSelected,
+                                    }
+                                });
+                            })
+                        }}
+                        />
+                        {ListItem.title}
+                    </li>;
+                })}
+            </ul>
 
-            <p>Contador: {counterRef.current}</p>
-
-            <button onClick={()=> counterRef.current++}>Somar</button>
-            <button onClick={()=> console.log(counterRef.current)}>Log</button>
-            <button onClick={logout}>Logout</button>
-            <Link to="/entrar">Login</Link>
         </div>
     )
 }
