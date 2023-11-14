@@ -1,13 +1,13 @@
-<<<<<<< HEAD
 import {useCallback, useState} from "react";
 
-interface IListItem{
+interface ITarefa{
     title:string;
-    isSelected:boolean;
+    isCompleted:boolean;
+    id:number;
 }
 
 export const Dashboard = () => {
-    const [lista,setLista] = useState<IListItem[]>([]);
+    const [lista,setLista] = useState<ITarefa[]>([]);
    
     const handleInputKeyDown:React.KeyboardEventHandler<HTMLInputElement>  = useCallback((e)=>{
         if(e.key === 'Enter'){
@@ -23,7 +23,8 @@ export const Dashboard = () => {
                 return[...oldLista,
                     {
                     title:value,
-                    isSelected:false,
+                    isCompleted:false,
+                    id: oldLista.length,
                     }];
             });
         }
@@ -35,18 +36,18 @@ export const Dashboard = () => {
 
             <ul>
                 {lista.map((ListItem)=> {
-                    return <li key={ListItem.title}>
+                    return <li key={ListItem.id}>
                         <input 
                         type="checkbox"
                         onChange={()=>{
                             setLista(oldLista =>{
                                 return oldLista.map(oldListItem => {
-                                    const newIsSelected = oldListItem.title === ListItem.title 
-                                    ? !oldListItem.isSelected
-                                    : oldListItem.isSelected;
+                                    const newisCompleted = oldListItem.title === ListItem.title 
+                                    ? !oldListItem.isCompleted
+                                    : oldListItem.isCompleted;
                                     return{
                                         ...oldListItem,
-                                        isSelected: newIsSelected,
+                                        isCompleted: newisCompleted,
                                     }
                                 });
                             })
@@ -60,15 +61,3 @@ export const Dashboard = () => {
         </div>
     )
 }
-=======
-import {Link} from 'react-router-dom'
-export const Dashboard = () => {
-    return(
-        <div>
-    	    <p>Dashboard</p>
-            <Link to="/entrar">Login </Link>
-        </div>
-        
-    )
-} 
->>>>>>> 87673a9d57f759da3428edf0dffc6edcfe8b97b9
