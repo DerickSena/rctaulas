@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import {useCallback, useState} from "react";
 
 interface IListItem{
@@ -59,3 +60,15 @@ export const Dashboard = () => {
         </div>
     )
 }
+=======
+import {Link} from 'react-router-dom'
+export const Dashboard = () => {
+    return(
+        <div>
+    	    <p>Dashboard</p>
+            <Link to="/entrar">Login </Link>
+        </div>
+        
+    )
+} 
+>>>>>>> 87673a9d57f759da3428edf0dffc6edcfe8b97b9
