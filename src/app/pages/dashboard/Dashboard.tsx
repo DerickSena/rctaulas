@@ -26,29 +26,32 @@ export const Dashboard = () => {
 
             e.currentTarget.value = '';
 
-            setLista((oldLista)=>{
-                if(oldLista.some((ListItem) => ListItem.title === value)) return oldLista;
+            if(lista.some((ListItem) => ListItem.title === value)) return;
 
-                return[...oldLista,
-                    {
-                    title:value,
-                    isCompleted:false,
-                    id: oldLista.length,
-                    }];
+            TarefasServices.create({title:value, isCompleted:false })
+            .then((result)=>{
+                if(result instanceof ApiException){
+                    alert(result.message);
+                }else{
+                    setLista((oldLista)=>[...oldLista,result, ]);
+                }
             });
         }
-    },[]);
+    },[lista]);
     return (
         <div>
             <p>Lista</p>
+
             <input onKeyDown={handleInputKeyDown}/>
 
+            <p>{lista.filter((listItem) => listItem.isCompleted).length}</p>
             <ul>
                 {lista.map((ListItem)=> {
                     return <li key={ListItem.id}>
                         <input 
                         type="checkbox"
-                        onChange={()=>{
+                        checked={ListItem.isCompleted}
+                        onChange={() => {
                             setLista(oldLista =>{
                                 return oldLista.map(oldListItem => {
                                     const newisCompleted = oldListItem.title === ListItem.title 
