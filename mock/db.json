@@ -3,12 +3,12 @@
     {
       "id": 1,
       "title": "Tarefa 01",
-      "estaCompleted": false
+      "isCompleted": false
     },
     {
       "title": "Tarefa 02",
-      "estaCompleta": false,
-      "id": 2
+      "id": 2,
+      "isCompleted": false
     },
     {
       "title": "Tarefa 03",
